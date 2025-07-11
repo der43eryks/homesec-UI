@@ -3,6 +3,11 @@ import { useNavigate } from 'react-router-dom';
 
 const API_BASE = import.meta.env.VITE_API_BASE_URL || '';
 
+interface LoginResponse {
+  message?: string;
+  // add other fields as needed
+}
+
 const Login: React.FC = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -22,6 +27,7 @@ const Login: React.FC = () => {
     e.preventDefault();
     setLoading(true);
     setError('');
+
     try {
       const response = await fetch(`${API_BASE}/api/auth/login`, {
         method: 'POST',
@@ -29,12 +35,23 @@ const Login: React.FC = () => {
         body: JSON.stringify({ email, password }),
         credentials: 'include',
       });
-      if (response.ok) {
-        navigate('/dashboard');
-      } else {
-        const data = await response.json();
-        setError(data.message || 'Login failed');
+
+      if (!response.ok) {
+        const data: LoginResponse = await response.json();
+
+        if (!data) {
+          setError('No response from server');
+          return;
+        }
+
+        if (typeof data.message === 'string') {
+          setError(data.message);
+          return;
+        }
       }
+
+      // Success: navigate to dashboard
+      navigate('/dashboard');
     } catch (err) {
       setError('Network error');
     } finally {
