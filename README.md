@@ -1,69 +1,137 @@
-# React + TypeScript + Vite
+# Home Security Frontend (homesec)
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A modern, secure, and responsive web app for home security monitoring, built with **Vite**, **React**, **TypeScript**, and **Tailwind CSS**.
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Features
+- **Authentication:** Secure login/logout with device ID, email, and password
+- **Dashboard:** Real-time device status, communication history, and security alerts
+- **Profile Management:** Update email, password, phone, and notification preferences
+- **Live Alerts:** Real-time security events via Server-Sent Events (SSE)
+- **Responsive Design:** Mobile-first, accessible, and touch-friendly UI
+- **API Integration:** Connects to a RESTful backend (see API endpoints below)
 
-## Expanding the ESLint configuration
+---
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
-
-```js
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      ...tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      ...tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      ...tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+## Folder Structure
+```
+homesec/
+  ├─ public/
+  ├─ src/
+  │   ├─ api/                # API utility functions
+  │   ├─ assets/             # Static assets (e.g., icons)
+  │   ├─ components/         # Reusable UI components
+  │   ├─ hooks/              # Custom React hooks
+  │   ├─ pages/              # Page components (Login, Dashboard)
+  │   ├─ utils/              # Utility functions
+  │   ├─ App.tsx             # Main app with routing
+  │   ├─ main.tsx            # App entry point
+  │   └─ index.css           # Tailwind base styles
+  ├─ tailwind.config.cjs     # Tailwind CSS config
+  ├─ tailwind.config.json    # Tailwind config (JSON, for tooling)
+  ├─ postcss.config.cjs      # PostCSS config
+  ├─ tsconfig.json           # TypeScript config
+  ├─ vite.config.ts          # Vite config
+  └─ README.md
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+---
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+## Setup & Development
 
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+1. **Install dependencies:**
+   ```sh
+   npm install
+   ```
+
+2. **Environment variables:**
+   - Create a `.env` file in the root with:
+     ```env
+     VITE_API_URL=http://localhost:4000/api
+     ```
+     (Adjust the URL to match your backend.)
+
+3. **Run the development server:**
+   ```sh
+   npm run dev
+   ```
+   The app will be available at [http://localhost:5173](http://localhost:5173)
+
+4. **Build for production:**
+   ```sh
+   npm run build
+   ```
+
+---
+
+## Scripts
+- `npm run dev` — Start Vite dev server
+- `npm run build` — Build for production
+- `npm run preview` — Preview production build
+- `npm run lint` — Run ESLint
+
+---
+
+## Backend API Endpoints (Expected)
+- `POST   /api/auth/login` — Login
+- `POST   /api/auth/logout` — Logout
+- `GET    /api/users/me` — Get user profile
+- `PATCH  /api/users/email` — Update email
+- `PATCH  /api/users/password` — Update password
+- `PATCH  /api/users/phone` — Update phone
+- `GET    /api/devices/me` — Get device info
+- `GET    /api/devices/status` — Get device status
+- `GET    /api/alerts` — Get alerts
+- `GET    /api/sse/alerts` — Real-time alerts (SSE)
+- `POST   /api/password-resets/request` — Request password reset
+- `POST   /api/password-resets/reset` — Reset password
+
+---
+
+## UI/UX Highlights
+- Minimalist, card-based dashboard
+- Pre-filled login form for demo/testing
+- Profile update modal on first login
+- Real-time updates for alerts and device status
+- Accessible, mobile-friendly, and visually clear
+
+---
+
+## TypeScript React Setup Checklist
+- [x] All component files use the `.tsx` extension
+- [x] `tsconfig.json` includes: `"jsx": "react-jsx"`
+- [x] `@types/react` and `@types/react-dom` are installed
+- [x] React 18+ and react-router-dom 6+ are installed
+- [x] Restart dev server and editor after config changes
+
+---
+
+## Common Errors & Solutions
+
+### Property 'div' does not exist on type 'JSX.IntrinsicElements'
+- **Cause:** TypeScript does not recognize JSX elements.
+- **Fix:**
+  1. Ensure your file extension is `.tsx`.
+  2. In `tsconfig.json`, set: `"jsx": "react-jsx"` under `compilerOptions`.
+  3. Install React types:
+     ```sh
+     npm install --save-dev @types/react @types/react-dom
+     ```
+  4. Restart your dev server and editor.
+
+### 'Routes' not exported from 'react-router-dom'
+- **Cause:** Using an old version of `react-router-dom`.
+- **Fix:**
+  ```sh
+  npm install react-router-dom@latest
+  ```
+
+### '@typescript-eslint/no-unused-vars' for catch variables
+- **Cause:** You have a catch block like `catch (err)` but do not use the `err` variable inside the block.
+- **Fix:** Remove the variable if not used: `catch { ... }` or use the variable in your error handling.
+
+---
+
+## License
+MIT (or your project license)
