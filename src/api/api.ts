@@ -1,4 +1,4 @@
-const API_URL = import.meta.env.VITE_API_URL;
+const API_URL = import.meta.env.VITE_API_URL || '';
 
 export async function login(email: string, password: string, device_id?: string) {
   const response = await fetch(`${API_URL}/auth/login`, {
@@ -76,7 +76,13 @@ export async function getAlerts() {
   return response.json();
 }
 
-export function getAlertsSSE(onMessage: (alert: any) => void) {
+interface Alert {
+  id: string;
+  message: string;
+  timestamp: string;
+}
+
+export function getAlertsSSE(onMessage: (alert: Alert) => void) {
   const eventSource = new EventSource(`${API_URL}/sse/alerts`);
   eventSource.onmessage = (event) => {
     onMessage(JSON.parse(event.data));
