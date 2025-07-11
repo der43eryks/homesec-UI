@@ -73,19 +73,31 @@ homesec/
 
 ---
 
-## Backend API Endpoints (Expected)
-- `POST   /api/auth/login` — Login
-- `POST   /api/auth/logout` — Logout
-- `GET    /api/users/me` — Get user profile
-- `PATCH  /api/users/email` — Update email
-- `PATCH  /api/users/password` — Update password
-- `PATCH  /api/users/phone` — Update phone
-- `GET    /api/devices/me` — Get device info
-- `GET    /api/devices/status` — Get device status
-- `GET    /api/alerts` — Get alerts
-- `GET    /api/sse/alerts` — Real-time alerts (SSE)
-- `POST   /api/password-resets/request` — Request password reset
-- `POST   /api/password-resets/reset` — Reset password
+## Backend API Endpoints
+
+**Base URL:** `http://localhost:4000/api`
+
+### Authentication
+- POST   /auth/login — Login
+- POST   /auth/logout — Logout
+
+### User Profile
+- GET    /users/me — Get user profile
+- PUT    /users/email — Update email
+- PUT    /users/password — Update password
+- PUT    /users/phone — Update phone
+
+### Device
+- GET    /devices/me — Get device info
+- GET    /devices/status — Get device status
+
+### Alerts
+- GET    /alerts — Get alerts
+- GET    /sse/alerts — Real-time alerts (SSE)
+
+### Password Reset
+- POST   /password-resets/request — Request password reset
+- POST   /password-resets/reset — Reset password
 
 ---
 
