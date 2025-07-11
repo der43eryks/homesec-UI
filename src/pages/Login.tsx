@@ -52,7 +52,7 @@ const Login: React.FC = () => {
 
       // Success: navigate to dashboard
       navigate('/dashboard');
-    } catch (err) {
+    } catch {
       setError('Network error');
     } finally {
       setLoading(false);
